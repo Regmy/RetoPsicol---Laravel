@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BuyersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/* Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+ */
+
+//  Route::resource('buyer', 'BuyerController', ['except' => ['show']]);
+ Route::post('buyer', [BuyersController::class,'store']);
+//  Route::put('buyer', 'BuyerController@update');
