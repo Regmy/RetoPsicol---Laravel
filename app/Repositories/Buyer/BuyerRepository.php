@@ -44,7 +44,16 @@ class BuyerRepository implements BuyerRepositoryInterface {
         $status   = [
             'message' => ' Successfully',
         ];
-        $data = Buyer::all();
+        $buyers = Buyer::all();
+        foreach ($buyers as $buyer) {
+            $buyer->branch_office_name = 'No asignado';
+            if($buyer->branch_office_id){
+                $nameBranchOffice = BranchOffice::find($buyer->branch_office_id);
+                $buyer->branch_office_name = $nameBranchOffice->name;
+            }
+            $data[]= $buyer;
+        }
+
         $data =  [ $status, $data ];
 
         return $this->response( $data , self::SUCCESSFULL_STATUS_CODE );
