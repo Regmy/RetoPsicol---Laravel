@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Buyer extends Model
+class BranchOffice extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,7 @@ class Buyer extends Model
      */
     protected $fillable = [
         'name',
-        'document',
-        'email',
-        'branch_office_id',
-        'ticket_buyed',
+        'tickets_quantity',
+        'tickets_sold',
     ];
 }

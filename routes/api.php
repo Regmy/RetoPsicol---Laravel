@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuyersController;
+use App\Http\Controllers\BranchOfficeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,14 @@ use App\Http\Controllers\BuyersController;
 |
 */
 
-/* Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
- */
+/* Buyers Routes */
+ Route::post('buyers', [BuyersController::class,'store']);
+ Route::get('buyers', [BuyersController::class,'index']);
+ Route::put('buyers/{buyer}', [BuyersController::class,'buyTicket']);
+ Route::delete('buyers/{buyer}', [BuyersController::class,'delete']);
+/* Branch Offices Routes */
+ Route::post('branchOffice', [BranchOfficeController::class,'store']);
+ Route::get('branchOffice', [BranchOfficeController::class,'index']);
+ Route::get('branchOffice/ticket_available/{branchOffice}', [BranchOfficeController::class,'available']);
+ Route::delete('branchOffice/{branchOffice}', [BranchOfficeController::class,'delete']);
 
-//  Route::resource('buyer', 'BuyerController', ['except' => ['show']]);
- Route::post('buyer', [BuyersController::class,'store']);
-//  Route::put('buyer', 'BuyerController@update');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBuyersTable extends Migration
+class CreateBranchOfficesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateBuyersTable extends Migration
      */
     public function up()
     {
-        Schema::create('buyers', function (Blueprint $table) {
+        Schema::create('branch_offices', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->unsignedInteger('document')->unique();
-            $table->string('email', 50);
-            $table->unsignedBigInteger('branch_office_id')->nullable();
-            $table->unsignedInteger('ticket_buyed');
+            $table->string('name')->unique();
+            $table->unsignedInteger('tickets_quantity');
+            $table->unsignedInteger('tickets_sold');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateBuyersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buyers');
+        Schema::dropIfExists('branch_offices');
     }
 }
