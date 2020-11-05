@@ -29,7 +29,7 @@ class BranchOfficeRepository implements BranchOfficeRepositoryInterface {
         ];
         $data = [$status, ''];
 
-        if( !$request->exists('tickets_sold') || $request->tickets_sold == '' ){
+        if( !$request->exists('tickets_sold') || $request['tickets_sold'] == '' ){
             $input['tickets_sold'] = 0;
         }
 
@@ -71,7 +71,8 @@ class BranchOfficeRepository implements BranchOfficeRepositoryInterface {
         return $this->response( $data , self::SUCCESSFULL_STATUS_CODE );
     }
 
-    public function soldticket( BranchOffice $branchOffice, $quantity ){
+    public function soldticket( $branchOffice_id, $quantity ){
+        $branchOffice = BranchOffice::find($branchOffice_id);
         $branchOffice->tickets_sold += $quantity;
         if ($branchOffice->tickets_sold < 0){
             $status   = [
@@ -83,6 +84,7 @@ class BranchOfficeRepository implements BranchOfficeRepositoryInterface {
         $branchOffice->update();
         $status   = [
             'message' => 'successfully',
+            'BranchOffice'   =>  $branchOffice->name,
         ];
         return $status;
     }

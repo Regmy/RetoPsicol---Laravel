@@ -30,7 +30,7 @@ class BuyerRequest extends FormRequest
         return [
             //
             'name'              => 'required | min:3',
-            'document'          => 'required | numeric | min:5 | unique:buyers',
+            'document'          => 'required | numeric | unique:buyers',
             'email'             => '',
             'branch_office_id'  => '',
             'ticket_buyed'      => '',
@@ -43,7 +43,7 @@ class BuyerRequest extends FormRequest
             'name.min'              => 'El campo Nombre debe tener minimo 3 caracteres',
             'document.required'     => 'El campo Documento es olbigatorio',
             'document.numeric'      => 'El campo Documento debe ser numerico',
-            'document.min'          => 'El campo Documento tener minimo 5 caracteres',
+            'document.min'          => 'El campo Documento debe tener minimo 4 caracteres',
             'document.unique'       => 'El documento seleccionado ya se encuentra registrado',
         ];
     }

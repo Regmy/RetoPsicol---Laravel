@@ -25,8 +25,8 @@ class BuyersController extends Controller
         return response()->json($response["data"], $response["statusCode"]);
     }
 
-    public function buyTicket(BuyerRequest $buyer , Request $request){
-        $response = $this->buyerRepository->buyTicket( $buyer,  $request );
+    public function assignament(Buyer $buyer, Request $request){
+        $response = $this->buyerRepository->assignament( $buyer, $request );
         return response()->json($response["data"], $response["statusCode"]);
     }
 

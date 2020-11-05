@@ -18,8 +18,9 @@ class BuyerRepository implements BuyerRepositoryInterface {
     const UNAUTHORISED_STATUS_CODE          = 401;
     const RESOURCE_NOT_FOUND_STATUS_CODE    = 404;
 
-    public function __construct(Client $client) {
+    public function __construct(Client $client, BranchOfficeRepository $branchOfficeRepository) {
         $this->http = $client;
+        $this->branchOfficeRepository = $branchOfficeRepository;
     }
 
     public function store(Request $request){
@@ -30,6 +31,10 @@ class BuyerRepository implements BuyerRepositoryInterface {
             'buyer_name'   => $name,
         ];
         $data = [$status, ''];
+
+        if( !$request->exists('ticket_buyed') || $input['ticket_buyed'] == '' ){
+            $input['ticket_buyed'] = 0;
+        }
         Buyer::create($input);
 
         return $this->response( $data , self::SUCCESSFULL_STATUS_CODE );
@@ -56,31 +61,22 @@ class BuyerRepository implements BuyerRepositoryInterface {
         return $this->response( $data , self::SUCCESSFULL_STATUS_CODE );
     }
 
-    public function buyTicket( BuyerRequest $buyer, Request $request ){
-        $branchOffice = BranchOffice::find($request->branch_office_id);
-        $branchOfficeRepository = new BranchOfficeRepository();
-        $branchOfficeStatus = $branchOfficeRepository->soldticket($branchOffice, $request->quantity_tickets);
+    public function assignament(Buyer $buyer, Request $request ){
+        $status = $this->branchOfficeRepository
+        ->soldticket($request->branch_office_id, $request->quantity_tickets);
 
-        if( $branchOfficeStatus->message == 'successfully' ){
-            $status   = [
-                'message' => ' Successfully Eliminated',
-                'buyer_name'   => $buyer->name,
-            ];
-            $buyer->branch_office_id    = $branchOffice->id;$status   = [
-                'message' => ' Successfully Eliminated',
-                'buyer_name'   => $buyer->name,
-            ];
-            $buyer->tickets_buyed       = $request->quantity_tickets;
-            $buyer->update();
+        if( $status['message'] == 'successfully' ){
+            $buyer->branch_office_id    = $request->branch_office_id;
+            $buyer->ticket_buyed       = $request->quantity_tickets;
             $data = [
                 'buyer_name'          => $buyer->name,
-                'branch_office_name'  => $branchOffice->name,
+                'branch_office_id'    => $request->branch_office_id,
                 'tieckts_buyed'       => $request->quantity_tickets,
             ];
+            $buyer->update();
             $data = [$status, $data];
         }
         else{
-            $status = $branchOfficeStatus;
             $data = [$status, ''];
         }
 

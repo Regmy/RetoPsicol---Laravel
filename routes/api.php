@@ -19,8 +19,8 @@ use App\Http\Controllers\BranchOfficeController;
 /* Buyers Routes */
  Route::post('buyers', [BuyersController::class,'store']);
  Route::get('buyers', [BuyersController::class,'index']);
- Route::put('buyers/{buyer}', [BuyersController::class,'buyTicket']);
  Route::delete('buyers/{buyer}', [BuyersController::class,'delete']);
+ Route::post('buyers/assignament/{buyer}', [BuyersController::class,'assignament']);
 /* Branch Offices Routes */
  Route::post('branchOffice', [BranchOfficeController::class,'store']);
  Route::get('branchOffice', [BranchOfficeController::class,'index']);
