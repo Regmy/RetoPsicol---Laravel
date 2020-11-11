@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/hola', function () {
+Route::get('/holaComoEstas', function () {
     return view('welcome');
 });
 // Prueba CAPOS
